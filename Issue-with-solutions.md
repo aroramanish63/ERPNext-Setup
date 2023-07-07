@@ -87,3 +87,34 @@ ERPNext 14 setup will work.
 $ bench --site [site] set-admin-password [new password]
 ```
 
+#### 7. Configuring the Firewall for Multitenant site or port enable settings
+Although configuring a firewall for development is optional, for production it is a mandatory security practice.
+
+You will need to open the following ports on your ERPNext server:
+
+80/tcp and 443/tcp for HTTP and HTTPS respectively
+3306/tcp for MariaDB connection (recommended only if you need remote access to database)
+143/tcp and 25/tcp for IMAP and STMP respectively
+22/tcp for SSH (if you have not already enabled OpenSSH in your UFW settings)
+8000/tcp for testing your platform before deploying to production
+
+To open multiple ports at once you can use the following command:
+```
+sudo ufw allow 22,25,143,80,443,3306,8000/tcp
+```
+
+Alternatively, you can allow connections from specific IP addresses on specific ports using this command:
+```
+sudo ufw allow from server_IP to any port port_number
+```
+
+After opening all necessary ports enable the firewall:
+```
+sudo ufw enable
+```
+
+Now confirm the status of your firewall:
+```
+sudo ufw status
+```
+
